@@ -31,15 +31,7 @@ export default function Navigation() {
       </nav>
 
       <div className="pt-4 border-t border-gray-200 dark:border-dark-border-subtle">
-        <Suspense
-          fallback={
-            <NavLink
-              href="/signin"
-              icon={<LogInIcon size={20} />}
-              label="Sign In"
-            />
-          }
-        >
+        <Suspense fallback={<span>Loading...</span>}>
           <UserEmail />
         </Suspense>
       </div>

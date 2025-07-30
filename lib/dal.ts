@@ -2,9 +2,11 @@ import { db } from '@/db'
 import { getSession } from './auth'
 import { eq } from 'drizzle-orm'
 import { issues, users } from '@/db/schema'
+import { mockDelay } from './utils'
 
 // Current user
 export const getCurrentUser = async () => {
+  await mockDelay(3000)
   const session = await getSession()
   if (!session) return null
 
@@ -36,8 +38,14 @@ export const getUserByEmail = async (email: string) => {
 }
 
 export async function getIssues() {
+  await mockDelay(3000)
+
   try {
+    const session = await getSession()
+    if (!session) return []
+    // Fetch issues for the current user
     const result = await db.query.issues.findMany({
+      where: eq(issues.userId, session.userId),
       with: {
         user: true,
       },
